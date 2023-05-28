@@ -13,7 +13,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Book/Index', [
+            'books' => Book::all(),
+        ]);
     }
 
     /**
@@ -21,7 +23,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Book/Create');
     }
 
     /**
@@ -29,7 +31,17 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => ['required', 'string'],
+            'isbn' => ['required', 'string', 'unique:books,isbn'],
+            'author' => ['required', 'string'],
+        ]);
+
+        //dd($validated);
+
+        Book::create($validated);
+
+        return to_route('book.index');
     }
 
     /**

@@ -15,5 +15,10 @@
             "@/*": ["./resources/js/*"]
         }
     },
-    "include": ["resources/js/**/*.ts", "resources/js/**/*.d.ts", "resources/js/**/*.vue"]
+    "include": [
+      "resources/js/**/*.ts",
+      "resources/js/**/*.d.ts",
+      "resources/js/**/*.vue",
+      "node_modules/.pnpm/@vue+runtime-core@3.3.4/node_modules/@vue/runtime-core/dist/runtime-core.d.ts"
+    ]
 }
