@@ -13,8 +13,10 @@ class BookController extends Controller
      */
     public function index()
     {
+        $title = request()->query('title');
+
         return Inertia::render('Book/Index', [
-            'books' => Book::all(),
+            'books' => Book::when(request()->has('title'), fn ($query) => $query->where('title', 'ilike', '%'.$title.'%'))->get(),
         ]);
     }
 

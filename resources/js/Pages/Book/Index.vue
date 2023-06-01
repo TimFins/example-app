@@ -4,6 +4,7 @@
             <h1 class="text-xl">List of books</h1>
             <button @click="redirectToCreate" class="bg-gray-900/30 w-fit rounded-md p-2 mt-2">Create Book</button>
         </div>
+        <input v-model="searchForm.title" required placeholder="Titel" class="rounded-lg border-[2px] p-1 w-fit">
         <div class="mt-5" v-for="book in books">
             <div class="rounded-md border-[2px] bg-gray-100 p-5">
                 <div class="flex justify-start">
@@ -25,7 +26,24 @@
 </template>
 
 <script lang="ts" setup>
+import { router } from '@inertiajs/vue3'
+import { useForm } from '@inertiajs/vue3'
+import { watch } from 'vue'
+
 defineProps<{ books: any }>()
+
+const searchForm = useForm({
+    title: '',
+})
+
+watch(
+    () => searchForm.title,
+    () => {
+        router.reload({
+            data: { title: searchForm.title },
+        })
+    }
+)
 
 function redirectToCreate() {
     window.location.href = '/book/create';
