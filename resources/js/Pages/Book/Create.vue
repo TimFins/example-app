@@ -8,7 +8,9 @@
                     <input v-model="form.isbn" required placeholder="ISBN" class="rounded-lg border-[2px] p-1 w-fit">
                     <p v-if="errors.isbn" class="text-sm text-red-500 mt-2 ml-2">ISBN already taken.</p>
                 </div>
-                <input v-model="form.author" required placeholder="Autor" class="rounded-lg border-[2px] p-1 w-fit">
+                <select class="rounded-lg border-[2px] p-1 w-fit" v-model="form.author_id">
+                    <option v-for="author in authors" :key="author.id" :value="author.id"> {{ author.first_name + " " + author.last_name }}</option>
+                </select>
                 <button type="submit" class="bg-gray-900/30 w-fit rounded-md p-2" form="form">Create book</button>
             </div>
         </form>
@@ -18,12 +20,12 @@
 <script lang="ts" setup>
 import { useForm } from '@inertiajs/vue3'
 
-defineProps<{ errors: any }>()
+defineProps<{ errors: any, authors: any }>()
 
 const form = useForm({
     title: '',
     isbn: '',
-    author: '',
+    author_id: '',
 })
 
 function submit() {

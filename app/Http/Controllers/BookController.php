@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Author;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 class BookController extends Controller
 {
@@ -16,7 +18,7 @@ class BookController extends Controller
         $title = request()->query('title');
 
         return Inertia::render('Book/Index', [
-            'books' => Book::when(request()->has('title'), fn ($query) => $query->where('title', 'ilike', '%'.$title.'%'))->get(),
+            'books' => Book::when(request()->has('title'), fn ($query) => $query->where('title', 'ilike', '%'.$title.'%'))->with('author')->get(),
         ]);
     }
 
@@ -25,7 +27,9 @@ class BookController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Book/Create');
+        return Inertia::render('Book/Create', [
+            'authors' => Author::all(),
+        ]);
     }
 
     /**
@@ -36,7 +40,7 @@ class BookController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string'],
             'isbn' => ['required', 'string', 'unique:books,isbn'],
-            'author' => ['required', 'string'],
+            'author_id' => ['numeric', 'exists:authors,id'],
         ]);
 
         //dd($validated);
@@ -51,7 +55,9 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        return Inertia::render('Book/Show', [
+            'book' => $book->load('author'),
+        ]);
     }
 
     /**

@@ -7,7 +7,7 @@
         <input v-model="searchForm.title" required placeholder="Titel" class="rounded-lg border-[2px] p-1 w-fit">
         <div class="mt-5" v-for="book in books">
             <div class="rounded-md border-[2px] bg-gray-100 p-5">
-                <div class="flex justify-start">
+                <div class="flex justify-start" @click="show(book)">
                     <div class="text-gray-600 flex flex-col gap-1">
                         <p>Title</p>
                         <p>ISBN</p>
@@ -17,7 +17,7 @@
                     <div class="flex flex-col gap-1">
                         <p>{{ book.title }}</p>
                         <p>{{ book.isbn }}</p>
-                        <p>{{ book.author }}</p>
+                        <p>{{ book.author.first_name + " " + book.author.last_name + ", " + new Date(book.author.birthdate).toLocaleDateString() }}</p>
                     </div>
                 </div>
             </div>
@@ -47,5 +47,9 @@ watch(
 
 function redirectToCreate() {
     window.location.href = '/book/create';
+}
+
+function show(book: any) {
+    window.location.href = '/book/' + book.id;
 }
 </script>
