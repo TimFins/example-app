@@ -18,7 +18,7 @@ class BookController extends Controller
         $title = request()->query('title');
 
         return Inertia::render('Book/Index', [
-            'books' => Book::when(request()->has('title'), fn ($query) => $query->where('title', 'ilike', '%'.$title.'%'))->with('author')->get(),
+            'books' => Book::when(request()->has('title'), fn ($query) => $query->where('title', 'ilike', '%'.$title.'%'))->with('author')->orderBy('created_at', 'DESC')->get(),
         ]);
     }
 

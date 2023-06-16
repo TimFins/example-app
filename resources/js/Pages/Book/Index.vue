@@ -10,13 +10,11 @@
                 <div class="flex justify-start" @click="show(book)">
                     <div class="text-gray-600 flex flex-col gap-1">
                         <p>Title</p>
-                        <p>ISBN</p>
                         <p>Author</p>
                     </div>
                     <div class="w-[40px]" />
                     <div class="flex flex-col gap-1">
                         <p>{{ book.title }}</p>
-                        <p>{{ book.isbn }}</p>
                         <p>{{ book.author.first_name + " " + book.author.last_name + ", " + new Date(book.author.birthdate).toLocaleDateString() }}</p>
                     </div>
                 </div>
